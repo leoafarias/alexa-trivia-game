@@ -1,0 +1,239 @@
+{
+  "languageModel": {
+    "types": [
+      {
+        "name": "AMAZON.US_FIRST_NAME",
+        "values": [
+          {
+            "id": "thao",
+            "name": {
+              "value": "Thao",
+              "synonyms": [
+                "Tao"
+              ]
+            }
+          },
+          {
+            "id": "emanuel",
+            "name": {
+              "value": "Emanuel",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "raul",
+            "name": {
+              "value": "Raul",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "thomas",
+            "name": {
+              "value": "Thomas",
+              "synonyms": [
+                "Tom"
+              ]
+            }
+          },
+          {
+            "id": "pedro",
+            "name": {
+              "value": "Pedro",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "deborah",
+            "name": {
+              "value": "Deborah",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "marcelo",
+            "name": {
+              "value": "Marcelo",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "juan",
+            "name": {
+              "value": "Juan",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "thiago",
+            "name": {
+              "value": "Thiago",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "andre",
+            "name": {
+              "value": "Andre",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "ronaldo",
+            "name": {
+              "value": "Ronaldo",
+              "synonyms": [
+                "Ronald"
+              ]
+            }
+          },
+          {
+            "id": "leo",
+            "name": {
+              "value": "Leo",
+              "synonyms": [
+                "Leonardo",
+                "Leonarda"
+              ]
+            }
+          },
+          {
+            "id": "ianko",
+            "name": {
+              "value": "Ianko",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "juliana",
+            "name": {
+              "value": "Juliana",
+              "synonyms": [
+                "Ju"
+              ]
+            }
+          },
+          {
+            "id": "felipe",
+            "name": {
+              "value": "Felipe",
+              "synonyms": [
+                "Perina"
+              ]
+            }
+          },
+          {
+            "id": "henry",
+            "name": {
+              "value": "Henry",
+              "synonyms": [
+                "Henrique"
+              ]
+            }
+          },
+          {
+            "id": "anderson",
+            "name": {
+              "value": "Anderson",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "humberto",
+            "name": {
+              "value": "Humberto",
+              "synonyms": [
+                "Beto"
+              ]
+            }
+          },
+          {
+            "id": "douglas",
+            "name": {
+              "value": "Douglas",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "franco",
+            "name": {
+              "value": "Franco",
+              "synonyms": [
+                "franscisco"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "intents": [
+      {
+        "name": "AMAZON.CancelIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.HelpIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.PauseIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.ResumeIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.StopIntent",
+        "samples": []
+      },
+      {
+        "name": "AnswerIntent",
+        "samples": [
+          "the answer is {Answer}",
+          "my answer is {Answer}",
+          "is it {Answer}",
+          "{Answer} is my answer",
+          "{Answer}"
+        ],
+        "slots": [
+          {
+            "name": "Answer",
+            "type": "AMAZON.NUMBER"
+          }
+        ]
+      },
+      {
+        "name": "DontKnowIntent",
+        "samples": [
+          "i don't know",
+          "don't know",
+          "i don't know that one",
+          "dunno",
+          "skip",
+          "i don't know that",
+          "who knows",
+          "i don't know this question"
+        ],
+        "slots": []
+      },
+      {
+        "name": "WhosThereIntent",
+        "samples": [
+          "I am {person}",
+          "They call me {person}",
+          "My friends call me {person}",
+          "I am known as {person}",
+          "{person}"
+        ],
+        "slots": [
+          {
+            "name": "person",
+            "type": "AMAZON.US_FIRST_NAME"
+          }
+        ]
+      }
+    ],
+    "invocationName": "knock"
+  }
+}
