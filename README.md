@@ -1,5 +1,7 @@
 # Xmas Smart Door - Trivia Game
 
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+
 A fun smart door implementation using Alexa, AWS Lambda & Firebase.
 
 This document will be a rough reference of some ideas for this proof of concept.
