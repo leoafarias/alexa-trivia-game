@@ -4,6 +4,8 @@ A fun smart door implementation using Alexa, AWS Lambda & Firebase.
 
 This document will be a rough reference of some ideas for this proof of concept.
 
+![](https://media.giphy.com/media/5KyOK9xvtfna/giphy.gif)
+
 ## Front-end States
 
 - IDLE - Application displays "From: Santa, To: TOP_RANKED_USER
