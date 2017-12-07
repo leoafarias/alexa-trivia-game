@@ -5,14 +5,6 @@ const usersRef = ref.child("users");
 const gamesRef = ref.child("games");
 const stateRef = ref.child("state");
 
-// Adds user to the database
-module.exports = {
-  checkUser,
-  addUser,
-  createGame,
-  addActivity
-};
-
 // Checks to see if a user already exists
 const checkUser = (name, id) =>
   new Promise((resolve, reject) => {
@@ -97,3 +89,10 @@ const addActivity = (type, value) =>
         reject(err);
       });
   });
+
+module.exports = {
+  checkUser,
+  addUser,
+  createGame,
+  addActivity
+};

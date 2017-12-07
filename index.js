@@ -1,16 +1,7 @@
 const Alexa = require("alexa-sdk");
 const firebase = require("firebase");
-const questions = require("./src/questions");
 const messages = require("./src/messages");
 const config = require("./config");
-
-// Handlers
-const newSessionHandlers = require("./src/handlers/newSession");
-const triviaStateHandlers = require("./src/handlers/triviaState");
-const startStateHandlers = require("./src/handlers/startState");
-const helpStateHandlers = require("./src/handlers/helpState");
-
-let ref, usersRef, activityRef;
 
 // global.__base = __dirname + "/";
 
@@ -27,7 +18,7 @@ exports.handler = function(event, context) {
 
   // Hack for firebase init on lambda
   if (firebase.apps.length === 0) {
-    firebase.initializeApp(config);
+    firebase.initializeApp(config.firebaseConfig);
   }
 
   const alexa = Alexa.handler(event, context);
@@ -35,10 +26,10 @@ exports.handler = function(event, context) {
   // To enable string internationalization (i18n) features, set a resources object.
   alexa.resources = messages;
   alexa.registerHandlers(
-    newSessionHandlers,
-    startStateHandlers,
-    triviaStateHandlers,
-    helpStateHandlers
+    require("./src/handlers/newSession"),
+    require("./src/handlers/triviaState"),
+    require("./src/handlers/startState"),
+    require("./src/handlers/helpState")
   );
   alexa.execute();
 };

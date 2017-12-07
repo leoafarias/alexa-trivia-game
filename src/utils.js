@@ -1,9 +1,3 @@
-module.exports = {
-  populateGameQuestions,
-  populateRoundAnswers,
-  handleUserGuess
-};
-
 function populateGameQuestions(translatedQuestions) {
   const gameQuestions = [];
   const indexList = [];
@@ -179,3 +173,9 @@ function handleUserGuess(userGaveUp) {
     this.emit(":responseReady");
   }
 }
+
+module.exports = {
+  populateGameQuestions,
+  populateRoundAnswers,
+  handleUserGuess
+};

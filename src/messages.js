@@ -1,5 +1,7 @@
 "use strict";
 
+const questions = require("./questions");
+
 module.exports = {
   en: {
     translation: {
