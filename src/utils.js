@@ -1,9 +1,11 @@
+const api = require("./api");
+
 function populateGameQuestions(translatedQuestions) {
   const gameQuestions = [];
   const indexList = [];
   let index = translatedQuestions.length;
 
-  if (global.GAME_LENGTH > index) {
+  if (GAME_LENGTH > index) {
     throw new Error("Invalid Game Length.");
   }
 
@@ -11,8 +13,8 @@ function populateGameQuestions(translatedQuestions) {
     indexList.push(i);
   }
 
-  // Pick global.GAME_LENGTH random questions from the list to ask the user, make sure there are no repeats.
-  for (let j = 0; j < global.GAME_LENGTH; j++) {
+  // Pick GAME_LENGTH random questions from the list to ask the user, make sure there are no repeats.
+  for (let j = 0; j < GAME_LENGTH; j++) {
     const rand = Math.floor(Math.random() * index);
     index -= 1;
 
@@ -28,7 +30,7 @@ function populateGameQuestions(translatedQuestions) {
 /**
  * Get the answers for a given question, and place the correct answer at the spot marked by the
  * correctAnswerTargetLocation variable. Note that you can have as many answers as you want but
- * only global.ANSWER_COUNT will be selected.
+ * only ANSWER_COUNT will be selected.
  * */
 function populateRoundAnswers(
   gameQuestionIndexes,
@@ -44,7 +46,7 @@ function populateRoundAnswers(
   ].slice();
   let index = answersCopy.length;
 
-  if (index < global.ANSWER_COUNT) {
+  if (index < ANSWER_COUNT) {
     throw new Error("Not enough answers for question.");
   }
 
@@ -59,7 +61,7 @@ function populateRoundAnswers(
   }
 
   // Swap the correct answer into the target location
-  for (let i = 0; i < global.ANSWER_COUNT; i++) {
+  for (let i = 0; i < ANSWER_COUNT; i++) {
     answers[i] = answersCopy[i];
   }
   const swapTemp2 = answers[0];
@@ -75,7 +77,7 @@ function isAnswerSlotValid(intent) {
     answerSlotFilled && !isNaN(parseInt(intent.slots.Answer.value, 10));
   return (
     answerSlotIsInt &&
-    parseInt(intent.slots.Answer.value, 10) < global.ANSWER_COUNT + 1 &&
+    parseInt(intent.slots.Answer.value, 10) < ANSWER_COUNT + 1 &&
     parseInt(intent.slots.Answer.value, 10) > 0
   );
 }
@@ -110,22 +112,23 @@ function handleUserGuess(userGaveUp) {
     );
   }
 
-  // Check if we can exit the game session after global.GAME_LENGTH questions (zero-indexed)
-  if (this.attributes["currentQuestionIndex"] === global.GAME_LENGTH - 1) {
+  // Check if we can exit the game session after GAME_LENGTH questions (zero-indexed)
+  if (this.attributes["currentQuestionIndex"] === GAME_LENGTH - 1) {
+    this.attributes["completed"] = true;
     speechOutput = userGaveUp ? "" : this.t("ANSWER_IS_MESSAGE");
     speechOutput +=
       speechOutputAnalysis +
       this.t(
         "GAME_OVER_MESSAGE",
         currentScore.toString(),
-        global.GAME_LENGTH.toString()
+        GAME_LENGTH.toString()
       );
 
     this.response.speak(speechOutput);
     this.emit(":responseReady");
   } else {
     currentQuestionIndex += 1;
-    correctAnswerIndex = Math.floor(Math.random() * global.ANSWER_COUNT);
+    correctAnswerIndex = Math.floor(Math.random() * ANSWER_COUNT);
     const spokenQuestion = Object.keys(
       translatedQuestions[gameQuestions[currentQuestionIndex]]
     )[0];
@@ -143,7 +146,7 @@ function handleUserGuess(userGaveUp) {
       spokenQuestion
     );
 
-    for (let i = 0; i < global.ANSWER_COUNT; i++) {
+    for (let i = 0; i < ANSWER_COUNT; i++) {
       repromptText += `${i + 1}. ${roundAnswers[i]}. `;
     }
 
@@ -172,6 +175,14 @@ function handleUserGuess(userGaveUp) {
     this.response.cardRenderer(this.t("GAME_NAME", repromptText));
     this.emit(":responseReady");
   }
+
+  // Updates the user with the latest attributes
+  api.updateUser(this.attributes["userId"], {
+    sessionAttributes: this.attributes,
+    score: currentScore,
+    completed: this.attributes["completed"] ? true : null,
+    completedAt: this.attributes["completed"] ? new Date() : null
+  });
 }
 
 module.exports = {

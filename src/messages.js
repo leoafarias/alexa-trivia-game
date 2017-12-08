@@ -31,7 +31,10 @@ module.exports = {
       TELL_QUESTION_MESSAGE: "Question %s. %s ",
       GAME_OVER_MESSAGE:
         "You got %s out of %s questions correct. Thank you for playing!",
-      SCORE_IS_MESSAGE: "Your score is %s. "
+      SCORE_IS_MESSAGE: "Your score is %s. ",
+      WELCOME_BACK: "Hey %s, welcome back",
+      RESUME_GAME:
+        "I see you already have a game that you did not complete. Let's continue where you left off! "
     }
   }
 };

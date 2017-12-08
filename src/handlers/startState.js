@@ -3,17 +3,17 @@
 const Alexa = require("alexa-sdk");
 const Utils = require("../utils");
 
-module.exports = Alexa.CreateStateHandler(global.GAME_STATES.START, {
+module.exports = Alexa.CreateStateHandler(GAME_STATES.START, {
   StartGame: function(newGame) {
     let speechOutput = newGame
       ? this.t("NEW_GAME_MESSAGE", this.t("GAME_NAME")) +
-        this.t("WELCOME_MESSAGE", global.GAME_LENGTH.toString())
+        this.t("WELCOME_MESSAGE", GAME_LENGTH.toString())
       : "";
-    // Select global.GAME_LENGTH questions for the game
+    // Select GAME_LENGTH questions for the game
     const translatedQuestions = this.t("QUESTIONS");
     const gameQuestions = Utils.populateGameQuestions(translatedQuestions);
     // Generate a random index for the correct answer, from 0 to 3
-    const correctAnswerIndex = Math.floor(Math.random() * global.ANSWER_COUNT);
+    const correctAnswerIndex = Math.floor(Math.random() * ANSWER_COUNT);
     // Select and shuffle the answers for each question
     const roundAnswers = Utils.populateRoundAnswers(
       gameQuestions,
@@ -27,7 +27,7 @@ module.exports = Alexa.CreateStateHandler(global.GAME_STATES.START, {
     )[0];
     let repromptText = this.t("TELL_QUESTION_MESSAGE", "1", spokenQuestion);
 
-    for (let i = 0; i < global.ANSWER_COUNT; i++) {
+    for (let i = 0; i < ANSWER_COUNT; i++) {
       repromptText += `${i + 1}. ${roundAnswers[i]}. `;
     }
 
@@ -49,7 +49,7 @@ module.exports = Alexa.CreateStateHandler(global.GAME_STATES.START, {
     });
 
     // Set the current state to trivia mode. The skill will now use handlers defined in triviaStateHandlers
-    this.handler.state = global.GAME_STATES.TRIVIA;
+    this.handler.state = GAME_STATES.TRIVIA;
 
     this.response.speak(speechOutput).listen(repromptText);
     this.response.cardRenderer(this.t("GAME_NAME"), repromptText);

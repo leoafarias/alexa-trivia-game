@@ -1,10 +1,10 @@
 "use strict";
 
-const Api = require("../api");
+const api = require("../api");
 
 module.exports = {
   LaunchRequest: function() {
-    // this.handler.state = global.GAME_STATES.START;
+    // this.handler.state = GAME_STATES.START;
     // this.emitWithState('StartGame', true);
     const speechOutput = "Who is there?";
     this.response.speak(speechOutput).listen(speechOutput);
@@ -13,50 +13,66 @@ module.exports = {
   WhosThereIntent: function() {
     const personSlot = this.event.request.intent.slots.person;
 
+    // If user matches the current person slot
     if (
-      personSlot.resolutions.resolutionsPerAuthority[0].status.code ===
+      personSlot.resolutions.resolutionsPerAuthority[0].status.code !==
       "ER_SUCCESS_MATCH"
     ) {
-      const person = personSlot.value.toLowerCase();
-      const id =
-        personSlot.resolutions.resolutionsPerAuthority[0].values[0].value.id;
-      const name =
-        personSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name;
+      // TODO: Do random respojnses if it doesnt understand
+      console.log(personSlot.value.toLowerCase());
+      const speechOutput = "Sorry... Who is this?";
+      const repromptSpeech = "Can you say your name one more time?";
+      this.emit(":ask", speechOutput, repromptSpeech);
+    } else {
+      let user = (this.attributes["user"] = personSlot.value.toLowerCase());
+      let userId = (this.attributes["userId"] =
+        personSlot.resolutions.resolutionsPerAuthority[0].values[0].value.id);
+      let userName = (this.attributes["userName"] =
+        personSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name);
 
-      console.log(
-        `DialogState: ${
-          personSlot.resolutions.resolutionsPerAuthority[0].status.code
-        }`
-      );
-      console.log(`Person Slot: => ${person}`);
-      console.log(`Person ID: ${id}`);
-      console.log(`Person Name: ${name}`);
-
-      Api.checkUser(person, id)
+      // Welcome back {name}
+      // it has been {time} since we last talked
+      // we can continue where you left off
+      api
+        .userExists(userName, userId)
         .then(res => {
-          console.log(">>> addUser >>> success ");
-          this.emit(":tell", res);
+          if (res) {
+            api.updateUser(userId, {
+              lastAccess: new Date()
+            });
+
+            // Check if the game has been completed
+            if (res.completed) {
+            } else {
+              // Set last stored attributes to resume the game
+              Object.assign(this.attributes, res.sessionAttributes);
+              this.handler.state = GAME_STATES.TRIVIA;
+              this.emitWithState("AMAZON.RepeatIntent", true);
+            }
+          } else {
+            api
+              .addUser(userName, userId)
+              .then(res => {
+                this.handler.state = GAME_STATES.START;
+                this.emitWithState("StartGame", true);
+              })
+              .catch(err => {
+                console.error(err);
+              });
+          }
         })
         .catch(err => {
           console.error(">>> addUser >>> err ", err);
-          this.emit(":tell", `Somethign went wrong ${person}`);
+          this.emit(":tell", `Somethign went wrong ${user}`);
         });
-    } else {
-      // TODO: Do random respojnses if it doesnt understand
-      const speechOutput = "Sorry... Who is this?";
-      const repromptSpeech = "Can you say one more time?";
-      this.emit(":ask", speechOutput, repromptSpeech);
     }
-
-    // this.handler.state = global.GAME_STATES.START;
-    // this.emitWithState('StartGame', true);
   },
   "AMAZON.StartOverIntent": function() {
-    this.handler.state = global.GAME_STATES.START;
+    this.handler.state = GAME_STATES.START;
     this.emitWithState("StartGame", true);
   },
   "AMAZON.HelpIntent": function() {
-    this.handler.state = global.GAME_STATES.HELP;
+    this.handler.state = GAME_STATES.HELP;
     this.emitWithState("helpTheUser", true);
   },
   Unhandled: function() {

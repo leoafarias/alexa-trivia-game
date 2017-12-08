@@ -2,20 +2,19 @@
 
 const Alexa = require("alexa-sdk");
 
-module.exports = Alexa.CreateStateHandler(global.GAME_STATES.HELP, {
+module.exports = Alexa.CreateStateHandler(GAME_STATES.HELP, {
   helpTheUser: function(newGame) {
     const askMessage = newGame
       ? this.t("ASK_MESSAGE_START")
       : this.t("REPEAT_QUESTION_MESSAGE") + this.t("STOP_MESSAGE");
-    const speechOutput =
-      this.t("HELP_MESSAGE", global.GAME_LENGTH) + askMessage;
+    const speechOutput = this.t("HELP_MESSAGE", GAME_LENGTH) + askMessage;
     const repromptText = this.t("HELP_REPROMPT") + askMessage;
 
     this.response.speak(speechOutput).listen(repromptText);
     this.emit(":responseReady");
   },
   "AMAZON.StartOverIntent": function() {
-    this.handler.state = global.GAME_STATES.START;
+    this.handler.state = GAME_STATES.START;
     this.emitWithState("StartGame", false);
   },
   "AMAZON.RepeatIntent": function() {
@@ -32,10 +31,10 @@ module.exports = Alexa.CreateStateHandler(global.GAME_STATES.HELP, {
   },
   "AMAZON.YesIntent": function() {
     if (this.attributes["speechOutput"] && this.attributes["repromptText"]) {
-      this.handler.state = global.GAME_STATES.TRIVIA;
+      this.handler.state = GAME_STATES.TRIVIA;
       this.emitWithState("AMAZON.RepeatIntent");
     } else {
-      this.handler.state = global.GAME_STATES.START;
+      this.handler.state = GAME_STATES.START;
       this.emitWithState("StartGame", false);
     }
   },

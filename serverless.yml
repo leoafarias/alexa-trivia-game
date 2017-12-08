@@ -20,3 +20,9 @@ functions:
     handler: index.handler
     events:
       - alexaSkill
+
+plugins:
+  serverless-webpack
+
+custom:
+  webpackIncludeModules: true # enable auto-packing of external modules

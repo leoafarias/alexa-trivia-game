@@ -3,7 +3,7 @@
 const Alexa = require("alexa-sdk");
 const Utils = require("../utils");
 
-module.exports = Alexa.CreateStateHandler(global.GAME_STATES.TRIVIA, {
+module.exports = Alexa.CreateStateHandler(GAME_STATES.TRIVIA, {
   AnswerIntent: function() {
     Utils.handleUserGuess.call(this, false);
   },
@@ -11,21 +11,28 @@ module.exports = Alexa.CreateStateHandler(global.GAME_STATES.TRIVIA, {
     Utils.handleUserGuess.call(this, true);
   },
   "AMAZON.StartOverIntent": function() {
-    this.handler.state = global.GAME_STATES.START;
-    this.emitWithState("StartGame", false);
+    Utils.handleUserGuess.call(this, false);
+    // this.handler.state = GAME_STATES.START;
+    // this.emitWithState("StartGame", false);
   },
-  "AMAZON.RepeatIntent": function() {
+  "AMAZON.RepeatIntent": function(resume) {
+    let speechOutput = "";
+    if (resume) {
+      speechOutput =
+        this.t("WELCOME_BACK", this.attributes["userName"]) +
+        this.t("RESUME_GAME");
+    }
     this.response
-      .speak(this.attributes["speechOutput"])
+      .speak(speechOutput + this.attributes["speechOutput"])
       .listen(this.attributes["repromptText"]);
     this.emit(":responseReady");
   },
   "AMAZON.HelpIntent": function() {
-    this.handler.state = global.GAME_STATES.HELP;
+    this.handler.state = GAME_STATES.HELP;
     this.emitWithState("helpTheUser", false);
   },
   "AMAZON.StopIntent": function() {
-    this.handler.state = global.GAME_STATES.HELP;
+    this.handler.state = GAME_STATES.HELP;
     const speechOutput = this.t("STOP_MESSAGE");
     this.response.speak(speechOutput).listen(speechOutput);
     this.emit(":responseReady");
@@ -35,10 +42,7 @@ module.exports = Alexa.CreateStateHandler(global.GAME_STATES.TRIVIA, {
     this.emit(":responseReady");
   },
   Unhandled: function() {
-    const speechOutput = this.t(
-      "TRIVIA_UNHANDLED",
-      global.ANSWER_COUNT.toString()
-    );
+    const speechOutput = this.t("TRIVIA_UNHANDLED", ANSWER_COUNT.toString());
     this.response.speak(speechOutput).listen(speechOutput);
     this.emit(":responseReady");
   },

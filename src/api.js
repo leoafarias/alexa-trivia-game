@@ -6,58 +6,52 @@ const gamesRef = ref.child("games");
 const stateRef = ref.child("state");
 
 // Checks to see if a user already exists
-const checkUser = (name, id) =>
+const userExists = (user, userId) =>
   new Promise((resolve, reject) => {
-    const query = usersRef.child(id);
-    // .orderByChild('name')
-    // .equalTo(name)
+    const query = usersRef.child(userId);
+    // .orderByChild('user')
+    // .equalTo(user)
     // .limitToFirst(1)
 
     query
       .once("value")
       .then(snap => {
-        console.log(">>> Return Value >>> ", snap.exists());
-
-        // If user does not exist
-        if (snap.exists() === false) {
-          addUser(name, id)
-            .then(res => {
-              resolve(`Nice talking to you ${name}`);
-            })
-            .catch(err => {
-              reject(err);
-            });
+        if (snap.exists() === true) {
+          resolve(snap.val());
         } else {
-          resolve(`Nice talking to you again ${name}`);
+          resolve(false);
         }
-      })
-      .catch(err => {
-        throw new Error("Firebase could not get user");
-      });
-  });
-
-const addUser = (name, id) =>
-  new Promise((resolve, reject) => {
-    console.log(">>> addUser started");
-
-    usersRef
-      .child(id)
-      .set({
-        name: name,
-        gameId: null,
-        lastAccess: null
-      })
-      .then(res => {
-        resolve(res);
       })
       .catch(err => {
         reject(err);
       });
   });
 
-const createGame = userId => {
-  console.log(">>> createGame started");
+const addUser = (user, userId) =>
+  new Promise((resolve, reject) => {
+    usersRef
+      .child(userId)
+      .set({
+        name: user,
+        lastAccess: new Date(),
+        sessionAttributes: null,
+        score: null,
+        completed: null,
+        completedAt: null
+      })
+      .then(() => {
+        resolve();
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
 
+const updateUser = (userId, obj) => {
+  usersRef.child(userId).update(obj);
+};
+
+const createGame = userId => {
   gamesRef
     .push({
       userId: userId,
@@ -75,8 +69,6 @@ const createGame = userId => {
 // Adds activity to the database
 const addActivity = (type, value) =>
   new Promise((resolve, reject) => {
-    console.log(">>> addActivity started");
-
     activityRef
       .push({
         type,
@@ -91,7 +83,8 @@ const addActivity = (type, value) =>
   });
 
 module.exports = {
-  checkUser,
+  userExists,
+  updateUser,
   addUser,
   createGame,
   addActivity

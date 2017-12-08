@@ -3,8 +3,6 @@ const firebase = require("firebase");
 const messages = require("./src/messages");
 const config = require("./config");
 
-// global.__base = __dirname + "/";
-
 global.ANSWER_COUNT = 3; // The number of possible answers per trivia question.
 global.GAME_LENGTH = 5; // The number of questions per trivia game.
 global.GAME_STATES = {
@@ -27,8 +25,8 @@ exports.handler = function(event, context) {
   alexa.resources = messages;
   alexa.registerHandlers(
     require("./src/handlers/newSession"),
-    require("./src/handlers/triviaState"),
     require("./src/handlers/startState"),
+    require("./src/handlers/triviaState"),
     require("./src/handlers/helpState")
   );
   alexa.execute();
