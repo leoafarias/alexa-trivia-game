@@ -34,7 +34,9 @@ module.exports = {
       SCORE_IS_MESSAGE: "Your score is %s. ",
       WELCOME_BACK: "Hey %s, welcome back",
       RESUME_GAME:
-        "I see you already have a game that you did not complete. Let's continue where you left off! "
+        "I see you already have a game that you did not complete. Let's continue where you left off! ",
+      ALREADY_COMPLETED_MESSAGE:
+        "Hey %s, I see you already have completed the Trivia. You scored %s "
     }
   }
 };

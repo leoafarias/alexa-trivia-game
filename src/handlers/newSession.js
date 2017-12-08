@@ -30,22 +30,25 @@ module.exports = {
       let userName = (this.attributes["userName"] =
         personSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name);
 
-      // Welcome back {name}
-      // it has been {time} since we last talked
-      // we can continue where you left off
       api
         .userExists(userName, userId)
         .then(res => {
+          // Check if user exists
           if (res) {
+            // Set last stored attributes of the user
+            Object.assign(this.attributes, res.sessionAttributes);
+
             api.updateUser(userId, {
               lastAccess: new Date()
             });
 
             // Check if the game has been completed
             if (res.completed) {
+              this.emit(
+                ":tell",
+                this.t("ALREADY_COMPLETED_MESSAGE", res.userName, res.score)
+              );
             } else {
-              // Set last stored attributes to resume the game
-              Object.assign(this.attributes, res.sessionAttributes);
               this.handler.state = GAME_STATES.TRIVIA;
               this.emitWithState("AMAZON.RepeatIntent", true);
             }

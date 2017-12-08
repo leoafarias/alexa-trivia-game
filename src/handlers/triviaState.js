@@ -17,6 +17,7 @@ module.exports = Alexa.CreateStateHandler(GAME_STATES.TRIVIA, {
   },
   "AMAZON.RepeatIntent": function(resume) {
     let speechOutput = "";
+    // Resume from previous session
     if (resume) {
       speechOutput =
         this.t("WELCOME_BACK", this.attributes["userName"]) +
