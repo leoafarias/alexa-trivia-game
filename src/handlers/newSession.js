@@ -38,6 +38,7 @@ module.exports = {
             // Set last stored attributes of the user
             Object.assign(this.attributes, res.sessionAttributes);
 
+            // Update the user with the last access
             api.updateUser(userId, {
               lastAccess: new Date()
             });
@@ -46,7 +47,12 @@ module.exports = {
             if (res.completed) {
               this.emit(
                 ":tell",
-                this.t("ALREADY_COMPLETED_MESSAGE", res.userName, res.score)
+                this.t(
+                  "ALREADY_COMPLETED_MESSAGE",
+                  res.name,
+                  res.score,
+                  GAME_LENGTH
+                )
               );
             } else {
               this.handler.state = GAME_STATES.TRIVIA;
