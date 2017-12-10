@@ -112,9 +112,21 @@ function handleUserGuess(userGaveUp) {
     );
   }
 
+  // Updates the user with the latest attributes
+  api.updateUser(this.attributes["userId"], {
+    sessionAttributes: this.attributes,
+    score: currentScore,
+    started: true,
+    completed:
+      this.attributes["currentQuestionIndex"] === GAME_LENGTH - 1 ? true : null,
+    completedAt:
+      this.attributes["currentQuestionIndex"] === GAME_LENGTH - 1
+        ? new Date()
+        : null
+  });
+
   // Check if we can exit the game session after GAME_LENGTH questions (zero-indexed)
   if (this.attributes["currentQuestionIndex"] === GAME_LENGTH - 1) {
-    this.attributes["completed"] = true;
     speechOutput = userGaveUp ? "" : this.t("ANSWER_IS_MESSAGE");
     speechOutput +=
       speechOutputAnalysis +
@@ -175,14 +187,6 @@ function handleUserGuess(userGaveUp) {
     this.response.cardRenderer(this.t("GAME_NAME", repromptText));
     this.emit(":responseReady");
   }
-
-  // Updates the user with the latest attributes
-  api.updateUser(this.attributes["userId"], {
-    sessionAttributes: this.attributes,
-    score: currentScore,
-    completed: this.attributes["completed"] ? true : null,
-    completedAt: this.attributes["completed"] ? new Date() : null
-  });
 }
 
 module.exports = {

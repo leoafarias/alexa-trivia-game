@@ -18,7 +18,6 @@ module.exports = {
       personSlot.resolutions.resolutionsPerAuthority[0].status.code !==
       "ER_SUCCESS_MATCH"
     ) {
-      // TODO: Do random respojnses if it doesnt understand
       console.log(personSlot.value.toLowerCase());
       const speechOutput = "Sorry... Who is this?";
       const repromptSpeech = "Can you say your name one more time?";
@@ -54,9 +53,14 @@ module.exports = {
                   GAME_LENGTH
                 )
               );
-            } else {
+            } else if (res.started) {
+              // Its not completed but has it been started?
               this.handler.state = GAME_STATES.TRIVIA;
               this.emitWithState("AMAZON.RepeatIntent", true);
+            } else {
+              // User created but session never started. Start session
+              this.handler.state = GAME_STATES.START;
+              this.emitWithState("StartGame", true);
             }
           } else {
             api

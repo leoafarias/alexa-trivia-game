@@ -35,6 +35,7 @@ const addUser = (user, userId) =>
         name: user,
         lastAccess: new Date(),
         sessionAttributes: null,
+        started: false,
         score: null,
         completed: null,
         completedAt: null

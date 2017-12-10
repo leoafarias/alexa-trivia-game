@@ -14,7 +14,7 @@ global.GAME_STATES = {
 exports.handler = function(event, context) {
   context.callbackWaitsForEmptyEventLoop = false;
 
-  // Hack for firebase init on lambda
+  // Needed for firebase init on lambda
   if (firebase.apps.length === 0) {
     firebase.initializeApp(config.firebaseConfig);
   }
