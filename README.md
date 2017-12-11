@@ -44,9 +44,9 @@ This document will be a rough reference of some ideas for this proof of concept.
 ```json
 {
      "gameId":{
-        userId: "string"
-        score: int,
-        completed: bool
-    }
+        "userId": "string"
+        "score": "int",
+        "completed": "bool"
+    }
 }
 ```
