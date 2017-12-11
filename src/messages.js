@@ -2,9 +2,27 @@
 
 const questions = require("./questions");
 
+const randomizeAnswer = options => {
+  return (
+    '<say-as interpret-as="interjection">' +
+    options[Math.floor(Math.random() * options.length)] +
+    '</say-as><break time="2s"/>'
+  );
+};
+
 module.exports = {
   en: {
     translation: {
+      INTRO:
+        '<audio src="https://d2kiyj3ex6fvqh.cloudfront.net/santa-1-intro.mp3" />' +
+        '<say-as interpret-as="interjection">ta da</say-as>' +
+        '<audio src="https://d2kiyj3ex6fvqh.cloudfront.net/santa-2-why-dont-you-say-hello.mp3" /><break time="1s"/>' +
+        "Hi Santa" +
+        '<audio src="https://d2kiyj3ex6fvqh.cloudfront.net/santa-3-dont-say-it-to-me.mp3" />' +
+        "<say-as interpret-as='interjection'>all righty</say-as> <break time='1s'/>I am Alexa. Santa's assistant <say-as interpret-as='interjection'>ahem</say-as><break time='1s'/>I mean Elf." +
+        '<audio src="https://d2kiyj3ex6fvqh.cloudfront.net/santa-4-say-alexa-knock-knock.mp3" /><break time="1s"/>' +
+        '<audio src="https://d2kiyj3ex6fvqh.cloudfront.net/santa-5-now-i-have-to-go.mp3" />' +
+        '<say-as interpret-as="interjection">bon voyage</say-as><break time="1s"/> I guess is just me and you now. Let the games begin!',
       QUESTIONS: questions["QUESTIONS_EN_US"],
       GAME_NAME: "Christmas Trivia", // Be sure to change this for your skill.
       HELP_MESSAGE:
@@ -20,14 +38,14 @@ module.exports = {
       TRIVIA_UNHANDLED: "Try saying a number between 1 and %s",
       HELP_UNHANDLED: "Say yes to continue, or no to end the game.",
       START_UNHANDLED: "Say start to start a new game.",
-      NEW_GAME_MESSAGE: "Welcome to %s",
+      NEW_GAME_MESSAGE: "Welcome to %s <break time='1s'/>",
       WELCOME_MESSAGE:
         "I will ask you %s questions, try to get as many right as you can. " +
-        "Just say the number of the answer. Let's begin.  <say-as interpret-as='interjection'>good luck</say-as>",
-      ANSWER_CORRECT_MESSAGE: "correct. ",
+        "Just say the number of the answer. Let's begin.  <say-as interpret-as='interjection'>good luck</say-as><break time='1s'/>",
+      ANSWER_CORRECT_MESSAGE: "That is correct. ",
       ANSWER_CORRECT_SOUND:
         '<audio src="https://d2kiyj3ex6fvqh.cloudfront.net/right-answer.mp3" /> ',
-      ANSWER_WRONG_MESSAGE: "wrong. ",
+      ANSWER_WRONG_MESSAGE: "That is wrong. ",
       ANSWER_WRONG_SOUND:
         '<audio src="https://d2kiyj3ex6fvqh.cloudfront.net/wrong-answer.mp3" /> ',
       CORRECT_ANSWER_MESSAGE: "The correct answer is %s: %s. ",
@@ -41,7 +59,25 @@ module.exports = {
       RESUME_GAME:
         "I see you already have a game that you did not complete. Let's continue where you left off! ",
       ALREADY_COMPLETED_MESSAGE:
-        "Hey %s, I see you already have completed the Trivia. You scored %s "
+        '<emphasis level="strong">Hey %s</emphasis> , I see you already have completed the Trivia. You scored %s out of %s',
+      ANSWER_WRONG_COMMENT: (() => {
+        let options = [
+          "aw man",
+          "d’oh",
+          "boo hoo",
+          "bummer",
+          "good grief",
+          "oh brother",
+          "uh oh",
+          "oh boy",
+          "ouch"
+        ];
+        return randomizeAnswer(options);
+      })(),
+      ANSWER_CORRECT_COMMENT: (() => {
+        let options = ["bam", "cha ching", "bingo", "boom", "booya", "oh snap"];
+        return randomizeAnswer(options);
+      })()
     }
   }
 };

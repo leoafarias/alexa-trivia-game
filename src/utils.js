@@ -99,10 +99,18 @@ function handleUserGuess(userGaveUp) {
       this.attributes["correctAnswerIndex"]
   ) {
     currentScore++;
-    speechOutputAnalysis = this.t("ANSWER_CORRECT_MESSAGE");
+    speechOutputAnalysis =
+      this.t("ANSWER_CORRECT_SOUND") +
+      this.t("ANSWER_CORRECT_COMMENT") +
+      this.t("ANSWER_CORRECT_MESSAGE");
+    console.error(speechOutputAnalysis);
   } else {
     if (!userGaveUp) {
-      speechOutputAnalysis = this.t("ANSWER_WRONG_MESSAGE");
+      speechOutputAnalysis =
+        this.t("ANSWER_WRONG_SOUND") +
+        this.t("ANSWER_WRONG_COMMENT") +
+        this.t("ANSWER_WRONG_MESSAGE");
+      console.log(speechOutputAnalysis);
     }
 
     speechOutputAnalysis += this.t(
