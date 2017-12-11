@@ -4,8 +4,11 @@ const api = require("../api");
 
 module.exports = {
   LaunchRequest: function() {
-    // this.handler.state = GAME_STATES.START;
-    // this.emitWithState('StartGame', true);
+    // Intro logic will be done later
+    // let speechOutput = this.t("INTRO");
+    // this.response.speak(speechOutput);
+    // this.emit(":responseReady");
+
     const speechOutput = "Who is there?";
     this.response.speak(speechOutput).listen(speechOutput);
     this.emit(":responseReady");
