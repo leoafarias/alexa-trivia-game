@@ -17,6 +17,9 @@ const app = firebase.initializeApp({
   databaseURL: 'https://santa-s-assistant.firebaseio.com/',
 });
 
+let idle;
+let setIdle;
+
 class App extends Component {
 
   state = {
@@ -25,8 +28,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const main    = firebase.database().ref("main");
-    const players = firebase.database().ref("players");
+    const main    = firebase.database().ref('currentState');
+    const players = firebase.database().ref('users');
 
     main.on('value', snapshot => {
       this.setState({ main: snapshot.val() });
@@ -36,33 +39,50 @@ class App extends Component {
       this.setState({ players: snapshot.val() });
     });
 
+    idle = () => {
+      this.setState({ main: { ...this.state.main, stateType: 'idle' } });
+    }
+    setIdle = setTimeout(idle, 20000);
+
+    this.resetStateIdle();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.main !== this.state.main) {
+      this.resetStateIdle();
+    }
+  }
+
+  resetStateIdle() {
+    clearTimeout(setIdle);
+    setIdle = setTimeout(idle, 20000);
   }
 
   getPlayerName = () => {
     const { main, players } = this.state;
 
-    if( main.isPlaying === 'idle' ) {
+    if( main.stateType === 'idle' ) {
       return <h1><strong>To: </strong> { players && Object.keys(players).length + ' people' }</h1>
     } else {
-      return <h1><strong>To: </strong> { players[main.isPlaying] !== undefined && players[main.isPlaying].name }</h1>
+      return <h1><strong>To: </strong> { players[main.userId] !== undefined && players[main.userId].name }</h1>
     }
   }
 
   setFunctions = () => {
     let { main, players } = this.state;
 
-    const mainFb    = firebase.database().ref("main");
-    const playersFb = firebase.database().ref("players");
+    const mainFb    = firebase.database().ref('currentState');
+    const playersFb = firebase.database().ref('users');
 
     window.playWith = (player) => {
-      main.isPlaying = player;
+      main.stateType = player;
       main.status = 'playing';
 
       mainFb.set(main);
     }
 
     window.stopGame = () => {
-      main.isPlaying = 'idle';
+      main.stateType = 'idle';
       main.status = 'idle';
       main.question.status = 'none';
 
@@ -70,19 +90,19 @@ class App extends Component {
     }
 
     window.scoreUp = () => {
-      players[main.isPlaying].score = players[main.isPlaying].score + 1;
+      players[main.userId].score = players[main.userId].score + 1;
 
       playersFb.set(players);
     }
 
     window.scoreDown = () => {
-      players[main.isPlaying].score = players[main.isPlaying].score - 1;
+      players[main.userId].score = players[main.userId].score - 1;
 
       playersFb.set(players);
     }
 
     window.setScore = (score) => {
-      players[main.isPlaying].score = score;
+      players[main.userId].score = score;
 
       playersFb.set(players);
     }
@@ -110,7 +130,7 @@ class App extends Component {
     }
 
     window.openRanking = () => {
-      main.isPlaying = 'idle';
+      main.stateType = 'idle';
       main.status = 'ranking';
       main.question.status = 'none';
 
@@ -118,7 +138,7 @@ class App extends Component {
     }
 
     window.closeRanking = () => {
-      main.isPlaying = 'idle';
+      main.stateType = 'idle';
       main.status = 'idle';
       main.question.status = 'none';
 
@@ -130,7 +150,7 @@ class App extends Component {
     this.setFunctions();
 
     const { main, players } = this.state;
-    const status = main.status;
+    const status = main.stateType;
 
     return (
       <div className="App">

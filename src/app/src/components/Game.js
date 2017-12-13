@@ -4,30 +4,40 @@ class Game extends Component {
 
   renderOptions = () => {
     const { main } = this.props;
-    const question = main.question;
-    const options = question.options;
+    const question = Object.keys(main.currentQuestion)[0];
+    const options = main.currentQuestion[Object.keys(main.currentQuestion)[0]];
 
     return Object.keys(options).map(function(key, index) {
       const option = options[key];
-
       return <li key={ key }>{ option }</li>
-
    });
   }
 
   render() {
     const { main, players } = this.props;
-    const status = main.status;
-    const question = main.question;
-    const questionStatus = main.question !== undefined ? main.question.status : null;
+    const status = main.stateType;
+    const question = main.currentQuestion;
 
-    const player = main.isPlaying;
+    let questionStatus;
+    if(main.results) {
+      let result = main.results[0];
+
+      if(result === 'correct') {
+        questionStatus = 'right';
+      } else if(result === 'wrong') {
+        questionStatus = 'wrong';
+      } else {
+        questionStatus = '';
+      }
+    }
+
+    const player = main.userId;
 
     if( !question || !players[player] ) { return <div className="Game"></div> }
 
     return (
-      <div className={`Game ${ status === 'playing' && 'active' } ${ questionStatus }`}>
-        <h3>{ question.title }</h3>
+      <div className={`Game ${ status === 'answer' && 'active' } ${ questionStatus }`}>
+        <h3>{ Object.keys(main.currentQuestion)[0] }</h3>
 
         <ul>
           { this.renderOptions() }

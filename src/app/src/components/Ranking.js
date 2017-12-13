@@ -31,10 +31,10 @@ class Ranking extends Component {
 
   render() {
     const { main, players } = this.props;
-    const status = main.status;
+    const status = main.stateType;
 
     return (
-      <div className={`Ranking ${ status === 'ranking' && 'active' }`}>
+      <div className={`Ranking ${ status === 'idle' && 'active' }`}>
         <h3>Ranking</h3>
         <ul>
           { this.renderRanking() }
