@@ -83,7 +83,6 @@ function isAnswerSlotValid(intent) {
 }
 
 function handleUserGuess(userGaveUp) {
-  this.attributes["stateType"] = "answer";
   const answerSlotValid = isAnswerSlotValid(this.event.request.intent);
   let speechOutput = "";
   let speechOutputAnalysis = "";

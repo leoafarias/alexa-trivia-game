@@ -46,7 +46,6 @@ module.exports = Alexa.CreateStateHandler(GAME_STATES.START, {
       questions: gameQuestions,
       results: {},
       answers: roundAnswers,
-      stateType: "question",
       score: 0,
       correctAnswerText:
         translatedQuestions[gameQuestions[currentQuestionIndex]][
