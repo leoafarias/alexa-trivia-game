@@ -55,14 +55,19 @@ class App extends Component {
 
   resetStateIdle() {
     clearTimeout(setIdle);
-    setIdle = setTimeout(idle, 20000);
+    setIdle = setTimeout(idle, 300000);
   }
 
   getPlayerName = () => {
     const { main, players } = this.state;
 
-    if( main.stateType === 'idle' ) {
-      return <h1><strong>To: </strong> { players && Object.keys(players).length + ' people' }</h1>
+    if (main.stateType === "idle") {
+      return (
+        <h1>
+          <strong>To: </strong>{" "}
+          {players && Object.keys(players).length + " people"}
+        </h1>
+      );
     } else {
       return <h1><strong>To: </strong> { players[main.userId] !== undefined && players[main.userId].name }</h1>
     }
