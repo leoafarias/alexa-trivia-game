@@ -112,7 +112,7 @@ function handleUserGuess(userGaveUp) {
         this.t("ANSWER_WRONG_SOUND") +
         this.t("ANSWER_WRONG_COMMENT")() +
         this.t("ANSWER_WRONG_MESSAGE");
-      this.attributes.results[this.attributes.currentQuestionIndex] = "false";
+      this.attributes.results[this.attributes.currentQuestionIndex] = "wrong";
     }
 
     speechOutputAnalysis += this.t(

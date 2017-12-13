@@ -131,7 +131,7 @@ h1, h2, h3 {
 }
 
 .Game ul {
-  list-style: upper-alpha;
+  list-style: decimal;
 }
 
 .Game ul li {
