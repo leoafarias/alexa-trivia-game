@@ -51,7 +51,7 @@ class App extends Component {
 
   resetStateIdle() {
     clearTimeout(setIdle);
-    setIdle = setTimeout(idle, 15000);
+    setIdle = setTimeout(idle, 20000);
   }
 
   getPlayerName = () => {
