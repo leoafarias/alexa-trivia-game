@@ -68,6 +68,7 @@ const setCurrentState = attributes =>
         userId: userId || null,
         userName: userName || null,
         score: score || null,
+        stateType: "active",
         answers: answers || null,
         currentQuestion: currentQuestion || null,
         currentQuestionIndex: currentQuestionIndex || null,
