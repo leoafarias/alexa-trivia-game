@@ -2,12 +2,16 @@
 
 const Alexa = require("alexa-sdk");
 const Utils = require("../utils");
+const api = require("../api");
 
 module.exports = Alexa.CreateStateHandler(GAME_STATES.START, {
   StartGame: function(newGame) {
     let speechOutput = newGame
-      ? this.t("NEW_GAME_MESSAGE", this.t("GAME_NAME")) +
-        this.t("WELCOME_MESSAGE", GAME_LENGTH.toString())
+      ? this.t(
+          "NEW_GAME_MESSAGE",
+          this.attributes["userName"],
+          this.t("GAME_NAME")
+        ) + this.t("WELCOME_MESSAGE", GAME_LENGTH.toString())
       : "";
     // Select GAME_LENGTH questions for the game
     const translatedQuestions = this.t("QUESTIONS");
@@ -36,9 +40,13 @@ module.exports = Alexa.CreateStateHandler(GAME_STATES.START, {
     Object.assign(this.attributes, {
       speechOutput: repromptText,
       repromptText: repromptText,
+      currentQuestion: translatedQuestions[gameQuestions[currentQuestionIndex]],
       currentQuestionIndex: currentQuestionIndex,
       correctAnswerIndex: correctAnswerIndex + 1,
       questions: gameQuestions,
+      results: {},
+      answers: roundAnswers,
+      stateType: "question",
       score: 0,
       correctAnswerText:
         translatedQuestions[gameQuestions[currentQuestionIndex]][
@@ -51,8 +59,10 @@ module.exports = Alexa.CreateStateHandler(GAME_STATES.START, {
     // Set the current state to trivia mode. The skill will now use handlers defined in triviaStateHandlers
     this.handler.state = GAME_STATES.TRIVIA;
 
-    this.response.speak(speechOutput).listen(repromptText);
-    this.response.cardRenderer(this.t("GAME_NAME"), repromptText);
-    this.emit(":responseReady");
+    api.setCurrentState(this.attributes).then(() => {
+      this.response.speak(speechOutput).listen(repromptText);
+      this.response.cardRenderer(this.t("GAME_NAME"), repromptText);
+      this.emit(":responseReady");
+    });
   }
 });

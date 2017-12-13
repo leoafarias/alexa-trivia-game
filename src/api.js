@@ -2,16 +2,13 @@ const firebase = require("firebase");
 
 const ref = firebase.database().ref();
 const usersRef = ref.child("users");
-const gamesRef = ref.child("games");
-const stateRef = ref.child("state");
+const configRef = ref.child("config");
+const currentStateRef = ref.child("currentState");
 
 // Checks to see if a user already exists
 const userExists = (user, userId) =>
   new Promise((resolve, reject) => {
     const query = usersRef.child(userId);
-    // .orderByChild('user')
-    // .equalTo(user)
-    // .limitToFirst(1)
 
     query
       .once("value")
@@ -52,41 +49,63 @@ const updateUser = (userId, obj) => {
   usersRef.child(userId).update(obj);
 };
 
-const createGame = userId => {
-  gamesRef
-    .push({
-      userId: userId,
-      score: null,
-      completed: false
-    })
-    .then(res => {
-      resolve(res);
-    })
-    .catch(err => {
-      reject(err);
-    });
-};
-
 // Adds activity to the database
-const addActivity = (type, value) =>
+const setCurrentState = attributes =>
   new Promise((resolve, reject) => {
-    activityRef
-      .push({
-        type,
-        value
+    let {
+      currentQuestion,
+      userId,
+      userName,
+      score,
+      stateType,
+      results,
+      answers,
+      currentQuestionIndex
+    } = attributes;
+
+    currentStateRef
+      .set({
+        userId: userId || null,
+        userName: userName || null,
+        score: score || null,
+        answers: answers || null,
+        currentQuestion: currentQuestion || null,
+        currentQuestionIndex: currentQuestionIndex || null,
+        results: results || null,
+        stateType: stateType || null
       })
       .then(res => {
         resolve(res);
       })
       .catch(err => {
+        throw new Error("Error happened when changing the state");
         reject(err);
       });
+  });
+
+const checkIntro = () =>
+  new Promise((resolve, reject) => {
+    const query = configRef.child("intro");
+    query
+      .once("value")
+      .then(snap => {
+        if (snap.exists() === true) {
+          resolve(snap.val());
+        } else {
+          resolve(false);
+        }
+      })
+      .catch(err => {
+        throw new Error("Something wrong happened when checking intro");
+        reject(err);
+      });
+    return;
   });
 
 module.exports = {
   userExists,
   updateUser,
   addUser,
-  createGame,
-  addActivity
+  setCurrentState,
+  checkIntro
 };

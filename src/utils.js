@@ -83,6 +83,7 @@ function isAnswerSlotValid(intent) {
 }
 
 function handleUserGuess(userGaveUp) {
+  this.attributes["stateType"] = "answer";
   const answerSlotValid = isAnswerSlotValid(this.event.request.intent);
   let speechOutput = "";
   let speechOutputAnalysis = "";
@@ -101,16 +102,17 @@ function handleUserGuess(userGaveUp) {
     currentScore++;
     speechOutputAnalysis =
       this.t("ANSWER_CORRECT_SOUND") +
-      this.t("ANSWER_CORRECT_COMMENT") +
-      this.t("ANSWER_CORRECT_MESSAGE");
-    console.error(speechOutputAnalysis);
+      this.t("ANSWER_CORRECT_COMMENT")() +
+      this.t("ANSWER_CORRECT_MESSAGE") +
+      this.t("COMPLIMENT")();
+    this.attributes.results[this.attributes.currentQuestionIndex] = "correct";
   } else {
     if (!userGaveUp) {
       speechOutputAnalysis =
         this.t("ANSWER_WRONG_SOUND") +
-        this.t("ANSWER_WRONG_COMMENT") +
+        this.t("ANSWER_WRONG_COMMENT")() +
         this.t("ANSWER_WRONG_MESSAGE");
-      console.log(speechOutputAnalysis);
+      this.attributes.results[this.attributes.currentQuestionIndex] = "false";
     }
 
     speechOutputAnalysis += this.t(
@@ -159,6 +161,7 @@ function handleUserGuess(userGaveUp) {
       correctAnswerIndex,
       translatedQuestions
     );
+
     const questionIndexForSpeech = currentQuestionIndex + 1;
     let repromptText = this.t(
       "TELL_QUESTION_MESSAGE",
@@ -179,8 +182,10 @@ function handleUserGuess(userGaveUp) {
     Object.assign(this.attributes, {
       speechOutput: repromptText,
       repromptText: repromptText,
+      currentQuestion: translatedQuestions[gameQuestions[currentQuestionIndex]],
       currentQuestionIndex: currentQuestionIndex,
       correctAnswerIndex: correctAnswerIndex + 1,
+      answers: roundAnswers,
       questions: gameQuestions,
       score: currentScore,
       correctAnswerText:
@@ -190,10 +195,11 @@ function handleUserGuess(userGaveUp) {
           )[0]
         ][0]
     });
-
-    this.response.speak(speechOutput).listen(repromptText);
-    this.response.cardRenderer(this.t("GAME_NAME", repromptText));
-    this.emit(":responseReady");
+    api.setCurrentState(this.attributes).then(() => {
+      this.response.speak(speechOutput).listen(repromptText);
+      this.response.cardRenderer(this.t("GAME_NAME", repromptText));
+      this.emit(":responseReady");
+    });
   }
 }
 

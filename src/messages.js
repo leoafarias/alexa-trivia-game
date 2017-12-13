@@ -1,14 +1,7 @@
 "use strict";
 
 const questions = require("./questions");
-
-const randomizeAnswer = options => {
-  return (
-    '<say-as interpret-as="interjection">' +
-    options[Math.floor(Math.random() * options.length)] +
-    '</say-as><break time="2s"/>'
-  );
-};
+const compliments = require("./compliments");
 
 module.exports = {
   en: {
@@ -38,7 +31,7 @@ module.exports = {
       TRIVIA_UNHANDLED: "Try saying a number between 1 and %s",
       HELP_UNHANDLED: "Say yes to continue, or no to end the game.",
       START_UNHANDLED: "Say start to start a new game.",
-      NEW_GAME_MESSAGE: "Welcome to %s <break time='1s'/>",
+      NEW_GAME_MESSAGE: "%s Welcome to %s <break time='1s'/>",
       WELCOME_MESSAGE:
         "I will ask you %s questions, try to get as many right as you can. " +
         "Just say the number of the answer. Let's begin.  <say-as interpret-as='interjection'>good luck</say-as><break time='1s'/>",
@@ -60,7 +53,7 @@ module.exports = {
         "I see you already have a game that you did not complete. Let's continue where you left off! ",
       ALREADY_COMPLETED_MESSAGE:
         '<emphasis level="strong">Hey %s</emphasis> , I see you already have completed the Trivia. You scored %s out of %s',
-      ANSWER_WRONG_COMMENT: (() => {
+      ANSWER_WRONG_COMMENT: () => {
         let options = [
           "aw man",
           "d’oh",
@@ -72,12 +65,27 @@ module.exports = {
           "oh boy",
           "ouch"
         ];
-        return randomizeAnswer(options);
-      })(),
-      ANSWER_CORRECT_COMMENT: (() => {
+        return (
+          '<say-as interpret-as="interjection">' +
+          randomizeArray(options) +
+          '</say-as><break time="1s"/>'
+        );
+      },
+      ANSWER_CORRECT_COMMENT: () => {
         let options = ["bam", "cha ching", "bingo", "boom", "booya", "oh snap"];
-        return randomizeAnswer(options);
-      })()
+        return (
+          '<say-as interpret-as="interjection">' +
+          randomizeArray(options) +
+          '</say-as><break time="1s"/>'
+        );
+      },
+      COMPLIMENT: () => {
+        return randomizeArray(compliments) + '<break time="1s"/>';
+      }
     }
   }
+};
+
+const randomizeArray = options => {
+  return options[Math.floor(Math.random() * options.length)];
 };

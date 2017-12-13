@@ -24,5 +24,9 @@ functions:
 plugins:
   serverless-webpack
 
+package:
+  exclude: 
+    - src/app/**
+
 custom:
   webpackIncludeModules: true # enable auto-packing of external modules

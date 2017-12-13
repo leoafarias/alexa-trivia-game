@@ -4,13 +4,13 @@ const api = require("../api");
 
 module.exports = {
   LaunchRequest: function() {
-    // Intro logic will be done later
-    // let speechOutput = this.t("INTRO");
-    // this.response.speak(speechOutput);
-    // this.emit(":responseReady");
-
     const speechOutput = "Who is there?";
     this.response.speak(speechOutput).listen(speechOutput);
+    this.emit(":responseReady");
+  },
+  PlayIntroIntent: function() {
+    let speechOutput = this.t("INTRO");
+    this.response.speak(speechOutput);
     this.emit(":responseReady");
   },
   WhosThereIntent: function() {
@@ -22,8 +22,9 @@ module.exports = {
       "ER_SUCCESS_MATCH"
     ) {
       console.log(personSlot.value.toLowerCase());
-      const speechOutput = "Sorry... Who is this?";
-      const repromptSpeech = "Can you say your name one more time?";
+      const speechOutput = "Sorry... Please say your name.";
+      const repromptSpeech =
+        "You must have been naughty because I don't have you on my list.";
       this.emit(":ask", speechOutput, repromptSpeech);
     } else {
       let user = (this.attributes["user"] = personSlot.value.toLowerCase());
@@ -40,31 +41,28 @@ module.exports = {
             // Set last stored attributes of the user
             Object.assign(this.attributes, res.sessionAttributes);
 
-            // Update the user with the last access
-            api.updateUser(userId, {
-              lastAccess: new Date()
+            api.setCurrentState(this.attributes).then(() => {
+              // Check if the game has been completed
+              if (res.completed) {
+                this.emit(
+                  ":tell",
+                  this.t(
+                    "ALREADY_COMPLETED_MESSAGE",
+                    res.name,
+                    res.score,
+                    GAME_LENGTH
+                  )
+                );
+              } else if (res.started) {
+                // Its not completed but has it been started?
+                this.handler.state = GAME_STATES.TRIVIA;
+                this.emitWithState("AMAZON.RepeatIntent", true);
+              } else {
+                // User created but session never started. Start session
+                this.handler.state = GAME_STATES.START;
+                this.emitWithState("StartGame", true);
+              }
             });
-
-            // Check if the game has been completed
-            if (res.completed) {
-              this.emit(
-                ":tell",
-                this.t(
-                  "ALREADY_COMPLETED_MESSAGE",
-                  res.name,
-                  res.score,
-                  GAME_LENGTH
-                )
-              );
-            } else if (res.started) {
-              // Its not completed but has it been started?
-              this.handler.state = GAME_STATES.TRIVIA;
-              this.emitWithState("AMAZON.RepeatIntent", true);
-            } else {
-              // User created but session never started. Start session
-              this.handler.state = GAME_STATES.START;
-              this.emitWithState("StartGame", true);
-            }
           } else {
             api
               .addUser(userName, userId)
