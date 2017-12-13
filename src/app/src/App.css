@@ -19,7 +19,7 @@ h1, h2, h3 {
 
 .player-card-holder {
   display: flex;
-  height: 100vh;
+  height: 65vh;
 
   flex-direction: column;
 
