@@ -162,6 +162,20 @@
                 "franscisco"
               ]
             }
+          },
+          {
+            "id": "brandon",
+            "name": {
+              "value": "Brandon",
+              "synonyms": []
+            }
+          },
+          {
+            "id": "greg",
+            "name": {
+              "value": "greg",
+              "synonyms": []
+            }
           }
         ]
       }
@@ -176,7 +190,15 @@
         "samples": []
       },
       {
+        "name": "AMAZON.NoIntent",
+        "samples": []
+      },
+      {
         "name": "AMAZON.PauseIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.RepeatIntent",
         "samples": []
       },
       {
@@ -184,7 +206,15 @@
         "samples": []
       },
       {
+        "name": "AMAZON.StartOverIntent",
+        "samples": []
+      },
+      {
         "name": "AMAZON.StopIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.YesIntent",
         "samples": []
       },
       {
@@ -218,13 +248,30 @@
         "slots": []
       },
       {
+        "name": "PlayIntroIntent",
+        "samples": [
+          "is santa there",
+          "message from santa",
+          "santa",
+          "santa are you there",
+          "santa answer me",
+          "santa open up",
+          "santa where are you",
+          "where are you santa",
+          "open up santa",
+          "are you there santa"
+        ],
+        "slots": []
+      },
+      {
         "name": "WhosThereIntent",
         "samples": [
           "I am {person}",
           "They call me {person}",
           "My friends call me {person}",
           "I am known as {person}",
-          "{person}"
+          "{person}",
+          "This is {person}"
         ],
         "slots": [
           {
@@ -234,6 +281,6 @@
         ]
       }
     ],
-    "invocationName": "knock"
+    "invocationName": "knock knock"
   }
 }
