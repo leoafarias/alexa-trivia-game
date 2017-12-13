@@ -76,6 +76,151 @@ module.exports = {
         "Comet",
         "Dasher"
       ]
+    },
+    {
+      "What kind of Christmas is Bing Crosby dreaming of? ": [
+        "White",
+        "Warm",
+        "Snowy",
+        "Dark"
+      ]
+    },
+    {
+      "What reindeer's name begins with a V": [
+        "Vixen",
+        "Vilnius",
+        "Verda",
+        "Vera"
+      ]
+    },
+    {
+      "All I want for Christmas is my?": [
+        "Two Front Teeth ",
+        "Own Big House ",
+        "Little Brown Dog ",
+        "Friend Leroy Jones "
+      ]
+    },
+    {
+      "What should you do under a mistletoe? ": [
+        "Give a Kiss ",
+        "Give a Hug",
+        "Empty Your Pockets ",
+        "Spin Around One Time "
+      ]
+    },
+    {
+      "How do you say Merry Christmas in Spanish?": [
+        "Feliz Navidad ",
+        "Habla Espanol",
+        "Frohe Weinachten ",
+        "Buon Natale "
+      ]
+    },
+    {
+      " How many candels should go on an Advent wreath?": ["4", "2", "5", "6"]
+    },
+    {
+      "How many reindeer pull Santa's sleigh?": ["8", "9", "10", "12"]
+    },
+    {
+      "Which reindeer doesn't belong?": ["Rufus", "Dasher", "Dancer", "Vixon"]
+    },
+    {
+      "This is a popular drink that's only available around Christmas? ": [
+        "Egg Nog",
+        "Purple Haze",
+        "Strawberry Milk",
+        "Butter Milk"
+      ]
+    },
+    {
+      "What is Santa's real name? ": [
+        "Kris Kringle ",
+        "Mike James ",
+        "Chris Krinkle ",
+        "Mike Jones "
+      ]
+    },
+    {
+      "Which of these companies was the first to use Santa Clause in an advertisement? ": [
+        "Coca-Cola",
+        "Pepsi",
+        "7-Up ",
+        "Fanta"
+      ]
+    },
+    {
+      "Which president was the first to decorate the White House Christmas tree? ": [
+        "Franklin Pierce",
+        "Benjamin Franklin ",
+        "George Washington ",
+        "Abraham Lincoln"
+      ]
+    },
+    {
+      "Which country did the gingerbread house come from?": [
+        "Germany ",
+        "Austria",
+        "Switzerland",
+        "United States"
+      ]
+    },
+    {
+      "What kind of Christmas does Elvis Presley sing about? ": [
+        "Blue ",
+        "White ",
+        "Red",
+        "Snowy"
+      ]
+    },
+    {
+      "In what year was 'A Christmas Carol', by Charles Dickens, published? ": [
+        "1843",
+        "1765",
+        "1860 ",
+        "1906"
+      ]
+    },
+    {
+      "What is the name of the Grinch's dog in the movie 'How the Grinch Stole Christmas'?  ": [
+        "Max",
+        "Pete",
+        "Sam",
+        "Ruth "
+      ]
+    },
+    {
+      "Where was 'A Christmas Carol' written?  ": [
+        "United Kingdom",
+        "Australia",
+        "United States",
+        "Germany "
+      ]
+    },
+    {
+      "Which reindeer helps Rudolph fly at the reindeer games? ": [
+        "Clarice",
+        "Donner",
+        "Dancer",
+        "Blitzen"
+      ]
+    },
+    {
+      "Which reindeer is Rudolph's dad? ": [
+        "Donner ",
+        "Dancer",
+        "Dixon",
+        "Blitzen"
+      ]
+    },
+    {
+      "Which Christmas movie has been played more than any other?": [
+        "It's a Wonderful Life ",
+        "A Christmas Story",
+        "Home Alone",
+        "Frosty the Snowman"
+      ]
     }
   ]
 };

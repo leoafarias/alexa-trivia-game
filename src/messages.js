@@ -31,7 +31,8 @@ module.exports = {
       TRIVIA_UNHANDLED: "Try saying a number between 1 and %s",
       HELP_UNHANDLED: "Say yes to continue, or no to end the game.",
       START_UNHANDLED: "Say start to start a new game.",
-      NEW_GAME_MESSAGE: "%s Welcome to %s <break time='1s'/>",
+      NEW_GAME_MESSAGE:
+        "%s Welcome to %s <break time='1s'/>, I see you want to play to win a brand new Alexa. One just like me.<break time='1s'/>",
       WELCOME_MESSAGE:
         "I will ask you %s questions, try to get as many right as you can. " +
         "Just say the number of the answer. Let's begin.  <say-as interpret-as='interjection'>good luck</say-as><break time='1s'/>",
