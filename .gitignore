@@ -9,6 +9,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+#Front-end
+front-end/node_modules/
+front-end/build/
+
 # Runtime data
 pids
 *.pid
