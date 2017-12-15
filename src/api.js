@@ -52,35 +52,14 @@ const updateUser = (userId, obj) => {
 // Adds activity to the database
 const setCurrentState = attributes =>
   new Promise((resolve, reject) => {
-    let {
-      currentQuestion,
-      userId,
-      userName,
-      score,
-      stateType,
-      results,
-      answers,
-      currentQuestionIndex
-    } = attributes;
-
     currentStateRef
-      .set({
-        userId: userId || null,
-        userName: userName || null,
-        score: score || null,
-        stateType: "active",
-        answers: answers || null,
-        currentQuestion: currentQuestion || null,
-        currentQuestionIndex: currentQuestionIndex || null,
-        results: results || null,
-        stateType: stateType || null
-      })
+      .set(attributes)
       .then(res => {
         resolve(res);
       })
       .catch(err => {
-        throw new Error("Error happened when changing the state");
         reject(err);
+        throw new Error("Error happened when changing the state");
       });
   });
 
@@ -97,8 +76,8 @@ const checkIntro = () =>
         }
       })
       .catch(err => {
-        throw new Error("Something wrong happened when checking intro");
         reject(err);
+        throw new Error("Something wrong happened when checking intro");
       });
     return;
   });

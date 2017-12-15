@@ -3,6 +3,10 @@
 const questions = require("./questions");
 const compliments = require("./compliments");
 
+const randomizeArray = options => {
+  return options[Math.floor(Math.random() * options.length)];
+};
+
 module.exports = {
   en: {
     translation: {
@@ -16,7 +20,7 @@ module.exports = {
         '<audio src="https://d2kiyj3ex6fvqh.cloudfront.net/santa-4-say-alexa-knock-knock.mp3" /><break time="1s"/>' +
         '<audio src="https://d2kiyj3ex6fvqh.cloudfront.net/santa-5-now-i-have-to-go.mp3" />' +
         '<say-as interpret-as="interjection">bon voyage</say-as><break time="1s"/> I guess is just me and you now. Let the games begin!',
-      QUESTIONS: questions["QUESTIONS_EN_US"],
+      QUESTIONS: questions.QUESTIONS_EN_US,
       GAME_NAME: "Christmas Trivia", // Be sure to change this for your skill.
       HELP_MESSAGE:
         "I will ask you %s multiple choice questions. Respond with the number of the answer. " +
@@ -85,8 +89,4 @@ module.exports = {
       }
     }
   }
-};
-
-const randomizeArray = options => {
-  return options[Math.floor(Math.random() * options.length)];
 };

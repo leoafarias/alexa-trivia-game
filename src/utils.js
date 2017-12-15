@@ -185,6 +185,7 @@ function handleUserGuess(userGaveUp) {
       currentQuestionIndex: currentQuestionIndex,
       correctAnswerIndex: correctAnswerIndex + 1,
       answers: roundAnswers,
+      stateType: "active",
       questions: gameQuestions,
       score: currentScore,
       correctAnswerText:
